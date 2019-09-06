@@ -2,6 +2,7 @@
 
 import nmap
 import sys
+import time
 from pprint import pprint
 
 nm_scan = nmap.PortScanner()
@@ -15,15 +16,18 @@ try:
 except IndexError:
     guess_os = 'No OS info gathered'
 
-#Pretty Print Full Scan
-pprint(nm_scanner)
+if len(sys.argv) == 3:
+    with open("%s.txt"%sys.argv[2], 'w') as f:
+        f.write("Full Scan: \n"+str(nm_scanner))
+        f.write("\n\nSummary: \n"+host_status+port_status+scanning_method+guess_os)
+        f.write("\nReport Generated: "+time.strftime("%Y-%m-%d_%H:%M:%S GMT", time.gmtime()))
+else:
+    #Pretty Print Full Scan
+    pprint(nm_scanner)
 
-#Summary Print Block
-print('Summary: \n')
-print(host_status)
-print(port_status)
-print(scanning_method)
-print(guess_os)
-
-#if len(sys.arguments) == 3:
-#    with open("%s.txt"%sys.argv[2], 'w') as f:
+    #Summary Print Block
+    print('Summary: \n')
+    print(host_status)
+    print(port_status)
+    print(scanning_method)
+    print(guess_os)
